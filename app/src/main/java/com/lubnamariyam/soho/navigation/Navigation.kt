@@ -11,6 +11,7 @@ import com.lubnamariyam.soho.model.Result
 import com.lubnamariyam.soho.ui.theme.Splash
 import com.lubnamariyam.soho.ui.view.ProductListScreen
 import com.lubnamariyam.soho.ui.view.Profile
+import com.lubnamariyam.soho.ui.view.SearchScreenUi
 import com.lubnamariyam.soho.viewModel.HomeViewModel
 
 @ExperimentalFoundationApi
@@ -28,10 +29,13 @@ fun Navigation(homeViewModel: HomeViewModel) {
         // Products screen
         composable("home_screen") {
             val activity = (LocalContext.current as? Activity)
-            ProductListScreen(homeViewModel.productResponse.results,navController)
+            ProductListScreen(homeViewModel.productResponse.results,navController,activity!!)
         }
         composable("profile_description") {
-            Profile()
+            Profile(navController,homeViewModel)
+        }
+        composable("search_Screen") {
+            SearchScreenUi(navController)
         }
     }
 

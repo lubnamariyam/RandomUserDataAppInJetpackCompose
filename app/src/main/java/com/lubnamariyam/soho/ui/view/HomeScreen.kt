@@ -1,5 +1,9 @@
 package com.lubnamariyam.soho.ui.view
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.FocusInteraction
 import androidx.compose.foundation.layout.*
@@ -11,12 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
@@ -33,14 +39,18 @@ import androidx.navigation.NavController
 import coil.compose.base.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
+import com.lubnamariyam.soho.MainActivity
 import com.lubnamariyam.soho.model.Result
+import com.lubnamariyam.soho.ui.theme.LightGrey
 import com.lubnamariyam.soho.ui.theme.SohoTheme
+import com.lubnamariyam.soho.ui.view.ProfileScreen.Companion.resultData
+import com.lubnamariyam.soho.ui.view.SearchScreen.Companion.randomUserResponseData
+import com.lubnamariyam.soho.viewModel.HomeViewModel
 import org.intellij.lang.annotations.JdkConstants
 
 @ExperimentalFoundationApi
 @Composable
-fun ProductListScreen(results: List<Result>,navController: NavController) {
-
+fun ProductListScreen(results: List<Result>,navController: NavController,activity:Activity) {
     Column() {
         TopAppBar(
             title = {
@@ -58,22 +68,29 @@ fun ProductListScreen(results: List<Result>,navController: NavController) {
         )
         SearchBar(
             hint = "Search...",
-            modifier = Modifier
+            modifier = Modifier.clickable { navController.navigate("search_screen") }
                 .fillMaxWidth()
                 .padding(16.dp)
-        ) {
-
-
-        }
-
+        )
+        randomUserResponseData = results
         LazyVerticalGrid(cells = GridCells.Fixed(2)) {
             items(results.size) { index ->
                 ProfileCard(result = results[index],navController)
             }
         }
 
+    }
+    BackHandler() {
+        val alertDialogBuilder = AlertDialog.Builder(activity)
+        alertDialogBuilder.setTitle("Exit App")
+        alertDialogBuilder.setMessage("Are you sure you want to exit?")
+        alertDialogBuilder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+            activity.finish()
+        }
+        alertDialogBuilder.setNegativeButton("No", { dialogInterface: DialogInterface, i: Int -> })
 
-
+        alertDialogBuilder.create()
+        alertDialogBuilder.show()
     }
 }
 
@@ -84,7 +101,9 @@ fun ProfileCard(result: Result,navController: NavController) {
             .padding(12.dp)
             .fillMaxWidth()
             .height(220.dp)
-            .background(Color.White).clickable{navController.navigate("profile_description") }, shape = RoundedCornerShape(8.dp), elevation = 6.dp,
+            .background(Color.White).clickable{
+                resultData = result
+                navController.navigate("profile_description") }, shape = RoundedCornerShape(8.dp), elevation = 6.dp,
     ) {
         Surface(
             modifier = Modifier.background(Color.White)
@@ -135,42 +154,39 @@ fun SearchBar(
     var isHintDisplayed by remember {
         mutableStateOf(hint != "")
     }
+    Box(modifier = modifier
+        .clip(shape = MaterialTheme.shapes.medium)
+        .background(LightGrey)) {
+        Row {
 
-    Box(modifier = modifier) {
-        BasicTextField(
-            value = text,
-            onValueChange = {
-                text = it
-                onSearch(it)
-            },
-            maxLines = 1,
-            singleLine = true,
-            textStyle = TextStyle(color = Color.Black),
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(5.dp, CircleShape)
-                .background(Color.White, CircleShape)
-                .padding(horizontal = 20.dp, vertical = 12.dp)
-                /*.onFocusChanged {
-                    isHintDisplayed = it.isFocused != it.hasFocus
-                }*/
-        )
-        if(isHintDisplayed) {
             Text(
                 text = hint,
                 color = Color.LightGray,
                 modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
+                    .padding(15.dp)
             )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(15.dp)
+                    .size(24.dp)
+            )
+
         }
+
     }
 }
+
 
 @Composable
 fun WeatherState(){
     Row() {
         Column() {
-            Text(text = "31  Coimbatore",textAlign = TextAlign.Center,
+            Text(text = "",textAlign = TextAlign.Center,
                 fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
             Text(text = "Scattered Clouds",textAlign = TextAlign.Center,
                 fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
