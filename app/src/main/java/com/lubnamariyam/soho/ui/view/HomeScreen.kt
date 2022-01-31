@@ -16,6 +16,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -123,7 +124,7 @@ fun ProfileCard(result: Result, navController: NavController) {
                 )
                 Text(
                     text = "${result.name.first}  ${result.name.last}",
-                    modifier = Modifier.padding(start = 4.dp),
+                    modifier = Modifier.padding(start = 4.dp).align(Alignment.CenterHorizontally),
                     fontFamily = FontFamily.SansSerif
                 )
                 Spacer(modifier = Modifier.padding(4.dp))
