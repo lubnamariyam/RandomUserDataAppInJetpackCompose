@@ -1,7 +1,6 @@
 package com.lubnamariyam.soho.ui.theme
 
 import android.view.animation.OvershootInterpolator
-import androidx.activity.viewModels
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -20,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.lubnamariyam.soho.R
-import com.lubnamariyam.soho.viewModel.HomeViewModel
 import kotlinx.coroutines.delay
 
 @Composable

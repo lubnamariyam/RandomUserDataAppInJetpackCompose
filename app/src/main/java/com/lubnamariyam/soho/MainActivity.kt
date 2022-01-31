@@ -4,46 +4,53 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
+import coil.annotation.ExperimentalCoilApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.lubnamariyam.soho.navigation.Navigation
 import com.lubnamariyam.soho.ui.theme.SohoTheme
-import com.lubnamariyam.soho.viewModel.HomeViewModel
+import com.lubnamariyam.soho.viewModel.WeatherViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    val homeViewModel by viewModels<HomeViewModel>()
-    var REQUESTCODE = 1
+   private val homeViewModel by viewModels<WeatherViewModel>()
+
+    private var REQUESTCODE = 1
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    @ExperimentalFoundationApi
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         setContent {
             SohoTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    homeViewModel.getProductList()
-                    checkUserPermissionAlert(homeViewModel)
-                    Navigation(homeViewModel)
+                   // homeViewModel.getProductList()
+                   //checkUserPermissionAlert(homeViewModel)
+                    Navigation()
                 }
             }
         }
 
     }
-    fun checkUserPermissionAlert(homeViewModel: HomeViewModel) {
+
+    private fun checkUserPermissionAlert(weatherViewModel: WeatherViewModel) {
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -66,7 +73,7 @@ class MainActivity : ComponentActivity() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
                     if (location?.latitude != null) {
-                        homeViewModel.getWeatherData(location.latitude, location.longitude)
+                        weatherViewModel.getWeatherData(location.latitude, location.longitude)
                     }
                 }
                 .addOnFailureListener {
@@ -90,7 +97,7 @@ class MainActivity : ComponentActivity() {
                     fusedLocationClient.lastLocation
                         .addOnSuccessListener { location: Location? ->
                             if (location?.latitude != null) {
-                                homeViewModel.getWeatherData(location.latitude, location.longitude)
+                            //    homeViewModel.getWeatherData(location.latitude, location.longitude)
                             }
                         }
                         .addOnFailureListener {
@@ -110,13 +117,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
-
-
 @Preview()
 @Composable
 fun DefaultPreview() {
     SohoTheme {
-
     }
 }

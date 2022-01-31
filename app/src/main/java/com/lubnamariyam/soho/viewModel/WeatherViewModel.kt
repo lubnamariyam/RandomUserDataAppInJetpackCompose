@@ -1,26 +1,22 @@
 package com.lubnamariyam.soho.viewModel
 
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.paging.ExperimentalPagingApi
+import androidx.lifecycle.viewModelScope
 import com.lubnamariyam.soho.Utils.SohoConstants
 import com.lubnamariyam.soho.model.weather.*
 import com.lubnamariyam.soho.network.RetrofitService
-import com.lubnamariyam.soho.repository.Repository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@ExperimentalPagingApi
-@HiltViewModel
-class HomeViewModel @Inject constructor(
-    repository: Repository
-) : ViewModel() {
-    val getAllUsers = repository.getAllRandomUsers()
+
+class WeatherViewModel : ViewModel() {
+
+
     var weatherResponse: WeatherResponse by mutableStateOf(
         WeatherResponse(
             "", Clouds(0), 0, Coord(0.0, 0.0), 0, 0,

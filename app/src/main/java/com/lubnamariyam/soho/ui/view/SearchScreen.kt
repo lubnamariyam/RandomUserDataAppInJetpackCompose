@@ -28,8 +28,7 @@ import androidx.navigation.NavController
 import coil.compose.base.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
-import com.lubnamariyam.soho.model.RandomUserResponse
-import com.lubnamariyam.soho.model.Result
+import com.lubnamariyam.soho.model.randomuser.Result
 import com.lubnamariyam.soho.ui.theme.LightGrey
 import com.lubnamariyam.soho.ui.theme.Peach200
 import com.lubnamariyam.soho.ui.theme.Peach500
@@ -49,11 +48,11 @@ fun SearchScreenUi(navController: NavController){
 @Composable
 fun ProfileList(navController: NavController, state: MutableState<TextFieldValue>) {
     var persons = randomUserResponseData
-    var filteredPerson: ArrayList<com.lubnamariyam.soho.model.Result> = arrayListOf()
+    var filteredPerson: ArrayList<Result> = arrayListOf()
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         val searchedText = state.value.text
         if(searchedText.isNotEmpty()){
-            val resultList = ArrayList<com.lubnamariyam.soho.model.Result>()
+            val resultList = ArrayList<Result>()
             for (person in persons) {
                 if (person.name.first.lowercase(Locale.getDefault())
                         .contains(searchedText.lowercase(Locale.getDefault()))
@@ -136,7 +135,7 @@ fun Search(state: MutableState<TextFieldValue>) {
 }
 
 @Composable
-fun MessageCard(result: Result, onItemClick: (Result) -> Unit) {
+fun MessageCard(result: com.lubnamariyam.soho.model.randomuser.Result, onItemClick: (Result) -> Unit) {
     Row(modifier = Modifier.fillMaxWidth().padding(all = 20.dp).clickable { onItemClick(result) }) {
         Image(
             painter = rememberImagePainter(
@@ -174,7 +173,7 @@ fun MessageCard(result: Result, onItemClick: (Result) -> Unit) {
 
 class SearchScreen{
     companion object{
-        lateinit var randomUserResponseData : List<Result>
+        lateinit var randomUserResponseData : List<com.lubnamariyam.soho.model.randomuser.Result>
     }
 }
 
