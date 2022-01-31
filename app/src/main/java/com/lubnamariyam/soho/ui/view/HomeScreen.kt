@@ -70,7 +70,7 @@ fun ProductListScreen(results: List<Result>,navController: NavController,activit
             hint = "Search...",
             modifier = Modifier.clickable { navController.navigate("search_screen") }
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(12.dp)
         )
         randomUserResponseData = results
         LazyVerticalGrid(cells = GridCells.Fixed(2)) {
