@@ -24,15 +24,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.ExperimentalPagingApi
 import coil.compose.base.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
+import com.lubnamariyam.soho.model.randomuser.RandomUserResponse
 import com.lubnamariyam.soho.model.randomuser.Result
 import com.lubnamariyam.soho.ui.theme.LightGrey
 import com.lubnamariyam.soho.ui.theme.Peach200
 import com.lubnamariyam.soho.ui.theme.Peach500
 import com.lubnamariyam.soho.ui.view.SearchScreen.Companion.randomUserResponseData
+import com.lubnamariyam.soho.viewModel.HomeViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,6 +47,7 @@ fun SearchScreenUi(navController: NavController){
     Column() {
         Search(state = textState)
         ProfileList(navController = navController, state = textState)
+
     }
 }
 @Composable
@@ -53,7 +58,7 @@ fun ProfileList(navController: NavController, state: MutableState<TextFieldValue
         val searchedText = state.value.text
         if(searchedText.isNotEmpty()){
             val resultList = ArrayList<Result>()
-            for (person in persons) {
+            for (person in persons.results) {
                 if (person.name.first.lowercase(Locale.getDefault())
                         .contains(searchedText.lowercase(Locale.getDefault()))
                 ) {
@@ -135,7 +140,7 @@ fun Search(state: MutableState<TextFieldValue>) {
 }
 
 @Composable
-fun MessageCard(result: com.lubnamariyam.soho.model.randomuser.Result, onItemClick: (Result) -> Unit) {
+fun MessageCard(result: Result, onItemClick: (Result) -> Unit) {
     Row(modifier = Modifier.fillMaxWidth().padding(all = 20.dp).clickable { onItemClick(result) }) {
         Image(
             painter = rememberImagePainter(
@@ -173,7 +178,7 @@ fun MessageCard(result: com.lubnamariyam.soho.model.randomuser.Result, onItemCli
 
 class SearchScreen{
     companion object{
-        lateinit var randomUserResponseData : List<com.lubnamariyam.soho.model.randomuser.Result>
+        lateinit var randomUserResponseData : RandomUserResponse
     }
 }
 

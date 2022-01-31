@@ -7,8 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.ExperimentalPagingApi
 import coil.annotation.ExperimentalCoilApi
-import com.lubnamariyam.soho.ui.theme.Splash
 import com.lubnamariyam.soho.ui.view.home.HomeScreenNew
+import com.lubnamariyam.soho.ui.view.Splash
 import com.lubnamariyam.soho.ui.view.Profile
 import com.lubnamariyam.soho.ui.view.SearchScreenUi
 

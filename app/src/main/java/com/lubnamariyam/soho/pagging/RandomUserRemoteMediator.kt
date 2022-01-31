@@ -59,7 +59,7 @@ class RandomUserRemoteMediator @Inject constructor(
                     randomUserDao.deleteAllRandomUsers()
                     randomUserRemoteKeysDao.deleteAllRemoteKeys()
                 }
-                val keys = response.results.map {
+                val keys = response.results.map { result ->
                     RandomUserKeys(
                         id_keys = response.id,
                         prevResult = prevPage,

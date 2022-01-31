@@ -39,7 +39,7 @@ fun ListContent(items: LazyPagingItems<RandomUserResponse> , navController: NavC
             }
         ) { randomUser ->
             randomUser?.let {
-                randomUserResponseData = randomUser.results
+                randomUserResponseData = randomUser
                 for (data in it.results)
                     MessageCard(result = data,navController)
             }

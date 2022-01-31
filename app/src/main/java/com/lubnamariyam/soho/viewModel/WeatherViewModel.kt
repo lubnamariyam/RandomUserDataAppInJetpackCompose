@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lubnamariyam.soho.Utils.SohoConstants
+import com.lubnamariyam.soho.model.randomuser.RandomUserResponse
 import com.lubnamariyam.soho.model.weather.*
 import com.lubnamariyam.soho.network.RetrofitService
 import kotlinx.coroutines.CoroutineScope

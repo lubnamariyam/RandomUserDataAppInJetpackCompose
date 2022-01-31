@@ -1,4 +1,4 @@
-package com.lubnamariyam.soho.ui.theme
+package com.lubnamariyam.soho.ui.view
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
@@ -22,14 +22,10 @@ import com.lubnamariyam.soho.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun Splash(navController: NavController ){
+fun Splash(navController: NavController) {
     val scale = remember {
         Animatable(0f)
     }
-
-    //println("Hello-->" + homeViewModel.getProductList())
-
-    // AnimationEffect
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 0.7f,
@@ -39,15 +35,14 @@ fun Splash(navController: NavController ){
                     OvershootInterpolator(4f).getInterpolation(it)
                 })
         )
-
         delay(2000L)
         navController.navigate("home_screen")
     }
-
-    // Image -> Logo
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize().background(Color.White)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
     ) {
         Image(
             painter = painterResource(id = R.drawable.app_logo),
