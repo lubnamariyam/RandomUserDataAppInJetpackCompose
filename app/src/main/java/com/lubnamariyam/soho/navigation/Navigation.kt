@@ -30,7 +30,7 @@ fun Navigation(homeViewModel: HomeViewModel) {
         // Products screen
         composable("home_screen") {
             val activity = (LocalContext.current as? Activity)
-            ProductListScreen(homeViewModel.productResponse.results,navController,activity!!)
+            ProductListScreen(homeViewModel.productResponse.results,navController,activity!!,homeViewModel)
         }
         composable("profile_description") {
             homeViewModel.getWeatherData(resultData.location.coordinates.latitude.toDouble(),

@@ -32,14 +32,16 @@ import coil.compose.base.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import com.lubnamariyam.soho.model.Result
+import com.lubnamariyam.soho.model.weather.WeatherResponse
 import com.lubnamariyam.soho.ui.theme.LightGrey
 import com.lubnamariyam.soho.ui.theme.SohoTheme
 import com.lubnamariyam.soho.ui.view.ProfileScreen.Companion.resultData
 import com.lubnamariyam.soho.ui.view.SearchScreen.Companion.randomUserResponseData
+import com.lubnamariyam.soho.viewModel.HomeViewModel
 
 @ExperimentalFoundationApi
 @Composable
-fun ProductListScreen(results: List<Result>, navController: NavController, activity: Activity) {
+fun ProductListScreen(results: List<Result>, navController: NavController, activity: Activity,homeViewModel: HomeViewModel) {
     Column() {
         TopAppBar(
             title = {
@@ -180,14 +182,16 @@ fun SearchBar(
 
 @Composable
 fun WeatherState() {
+
     Row() {
         Column() {
+
             Text(
-                text = "", textAlign = TextAlign.Center,
+                text = "22°C Arcot", textAlign = TextAlign.Center,
                 fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp
             )
             Text(
-                text = "Scattered Clouds", textAlign = TextAlign.Center,
+                text = "Clear", textAlign = TextAlign.Center,
                 fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp
             )
         }
