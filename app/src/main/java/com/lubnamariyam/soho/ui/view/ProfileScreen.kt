@@ -23,6 +23,7 @@ import coil.compose.base.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import com.lubnamariyam.soho.model.Result
+import com.lubnamariyam.soho.model.weather.WeatherResponse
 import com.lubnamariyam.soho.ui.theme.LightGrey
 import com.lubnamariyam.soho.ui.view.ProfileScreen.Companion.resultData
 import com.lubnamariyam.soho.viewModel.HomeViewModel
@@ -50,7 +51,7 @@ fun Profile(navController: NavController , homeViewModel: HomeViewModel) {
                             }
                     )
                     Spacer(Modifier.weight(1f))
-                    //WeatherState(homeViewModel = homeViewModel)
+                    WeatherState(homeViewModel)
                 }
             },
         )
@@ -146,19 +147,33 @@ fun PictureCard() {
 
 @Composable
 fun WeatherState(homeViewModel: HomeViewModel){
-    homeViewModel.getWeatherData(resultData.location.coordinates.latitude.toDouble() , resultData.location.coordinates.longitude.toDouble())
     var response = homeViewModel.weatherResponse
-    var temp = response.main.temp.minus(273.15)
-    Row() {
-        Column() {
-            Text(text = "$temp °C ${response.name}",textAlign = TextAlign.Center,
-                fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
-            Text(text = response.weather[0].description,textAlign = TextAlign.Center,
-                fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
+    if (response.name.isNotEmpty()){
+        var temp = response.main.temp - 273.15
+        Row() {
+            Column() {
+                Text(text = "${temp.toInt()} °C ${response.name}",textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
+                Text(text = response.weather[0].description,textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
+            }
+            Image(painter = painterResource(id = com.lubnamariyam.soho.R.drawable.rainy), contentDescription = "sun" , modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
         }
-        Image(painter = painterResource(id = com.lubnamariyam.soho.R.drawable.rainy), contentDescription = "sun" , modifier = Modifier.size(24.dp))
-        Spacer(modifier = Modifier.padding(10.dp))
+    }else{
+        Row() {
+            Column() {
+                Text(text = "18°C UK",textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
+                Text(text = "cloudy",textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
+            }
+            Spacer(modifier = Modifier.padding(2.dp))
+            Image(painter = painterResource(id = com.lubnamariyam.soho.R.drawable.rainy), contentDescription = "sun" , modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
+        }
     }
+
 }
 
 

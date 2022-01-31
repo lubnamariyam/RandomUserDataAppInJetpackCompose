@@ -11,6 +11,7 @@ import com.lubnamariyam.soho.model.Result
 import com.lubnamariyam.soho.ui.theme.Splash
 import com.lubnamariyam.soho.ui.view.ProductListScreen
 import com.lubnamariyam.soho.ui.view.Profile
+import com.lubnamariyam.soho.ui.view.ProfileScreen.Companion.resultData
 import com.lubnamariyam.soho.ui.view.SearchScreenUi
 import com.lubnamariyam.soho.viewModel.HomeViewModel
 
@@ -32,6 +33,8 @@ fun Navigation(homeViewModel: HomeViewModel) {
             ProductListScreen(homeViewModel.productResponse.results,navController,activity!!)
         }
         composable("profile_description") {
+            homeViewModel.getWeatherData(resultData.location.coordinates.latitude.toDouble(),
+                resultData.location.coordinates.longitude.toDouble())
             Profile(navController,homeViewModel)
         }
         composable("search_Screen") {

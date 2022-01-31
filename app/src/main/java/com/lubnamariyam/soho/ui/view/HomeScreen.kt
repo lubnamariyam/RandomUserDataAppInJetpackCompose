@@ -4,31 +4,22 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.FocusInteraction
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.FocusState
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,22 +30,19 @@ import androidx.navigation.NavController
 import coil.compose.base.R
 import coil.compose.rememberImagePainter
 import coil.size.Scale
-import com.lubnamariyam.soho.MainActivity
 import com.lubnamariyam.soho.model.Result
 import com.lubnamariyam.soho.ui.theme.LightGrey
 import com.lubnamariyam.soho.ui.theme.SohoTheme
 import com.lubnamariyam.soho.ui.view.ProfileScreen.Companion.resultData
 import com.lubnamariyam.soho.ui.view.SearchScreen.Companion.randomUserResponseData
-import com.lubnamariyam.soho.viewModel.HomeViewModel
-import org.intellij.lang.annotations.JdkConstants
 
 @ExperimentalFoundationApi
 @Composable
-fun ProductListScreen(results: List<Result>,navController: NavController,activity:Activity) {
+fun ProductListScreen(results: List<Result>, navController: NavController, activity: Activity) {
     Column() {
         TopAppBar(
             title = {
-                Row (){
+                Row() {
                     Text(
                         text = "Soho",
                         textAlign = TextAlign.Center,
@@ -68,14 +56,15 @@ fun ProductListScreen(results: List<Result>,navController: NavController,activit
         )
         SearchBar(
             hint = "Search...",
-            modifier = Modifier.clickable { navController.navigate("search_screen") }
+            modifier = Modifier
+                .clickable { navController.navigate("search_screen") }
                 .fillMaxWidth()
                 .padding(12.dp)
         )
         randomUserResponseData = results
         LazyVerticalGrid(cells = GridCells.Fixed(2)) {
             items(results.size) { index ->
-                ProfileCard(result = results[index],navController)
+                ProfileCard(result = results[index], navController)
             }
         }
 
@@ -95,15 +84,18 @@ fun ProductListScreen(results: List<Result>,navController: NavController,activit
 }
 
 @Composable
-fun ProfileCard(result: Result,navController: NavController) {
+fun ProfileCard(result: Result, navController: NavController) {
     Card(
         modifier = Modifier
             .padding(12.dp)
             .fillMaxWidth()
             .height(220.dp)
-            .background(Color.White).clickable{
+            .background(Color.White)
+            .clickable {
                 resultData = result
-                navController.navigate("profile_description") }, shape = RoundedCornerShape(8.dp), elevation = 6.dp,
+                navController.navigate("profile_description")
+            },
+        shape = RoundedCornerShape(8.dp), elevation = 6.dp,
     ) {
         Surface(
             modifier = Modifier.background(Color.White)
@@ -142,6 +134,7 @@ fun ProfileCard(result: Result,navController: NavController) {
         }
     }
 }
+
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
@@ -154,9 +147,11 @@ fun SearchBar(
     var isHintDisplayed by remember {
         mutableStateOf(hint != "")
     }
-    Box(modifier = modifier
-        .clip(shape = MaterialTheme.shapes.medium)
-        .background(LightGrey)) {
+    Box(
+        modifier = modifier
+            .clip(shape = MaterialTheme.shapes.medium)
+            .background(LightGrey)
+    ) {
         Row {
 
             Text(
@@ -183,15 +178,23 @@ fun SearchBar(
 
 
 @Composable
-fun WeatherState(){
+fun WeatherState() {
     Row() {
         Column() {
-            Text(text = "",textAlign = TextAlign.Center,
-                fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
-            Text(text = "Scattered Clouds",textAlign = TextAlign.Center,
-                fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp)
+            Text(
+                text = "", textAlign = TextAlign.Center,
+                fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp
+            )
+            Text(
+                text = "Scattered Clouds", textAlign = TextAlign.Center,
+                fontFamily = FontFamily.SansSerif, color = Color.Black, fontSize = 12.sp
+            )
         }
-        Image(painter = painterResource(id = com.lubnamariyam.soho.R.drawable.rainy), contentDescription = "sun" , modifier = Modifier.size(24.dp))
+        Image(
+            painter = painterResource(id = com.lubnamariyam.soho.R.drawable.rainy),
+            contentDescription = "sun",
+            modifier = Modifier.size(24.dp)
+        )
         Spacer(modifier = Modifier.padding(10.dp))
     }
 }
